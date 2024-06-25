@@ -69,16 +69,22 @@ public class CategoriesController
 
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/categories/{categoryId}")
     public void updateCategory(@PathVariable int id, @RequestBody Category category)
     {
+        category.setCategoryId(id);
+        categoryDao.update(id, category);
         // update the category by id
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/categories/{categoryId}")
     // add annotation to call this method for a DELETE action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
     public void deleteCategory(@PathVariable int id)
     {
+        categoryDao.delete(id);
         // delete the category by id
     }
 }
