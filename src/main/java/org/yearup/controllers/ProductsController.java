@@ -83,10 +83,16 @@ public class ProductsController
         {
             productDao.create(product);
         }
+      //bug in the update method
         catch(Exception ex)
         {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
+        try {
+            productDao.update(id, product);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error updating product.", e);        }
+
     }
 
     @DeleteMapping("{id}")
