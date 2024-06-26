@@ -41,68 +41,92 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
     @Override
     public Category getById(int categoryId) {
-        String sql = "SELECT * FROM Categories WHERE Category_ID = ?";
+         Category category = null;
+
+        String sql = "SELECT * FROM categories WHERE category_id = ?";
+
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-
             statement.setInt(1, categoryId);
+
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    int categoryID = resultSet.getInt("category_ID");
-                    String categoryName = resultSet.getString("name");
-                    Category category = new Category(categoryId, categoryName);
-                    return category;
+                    category = mapRow(resultSet);
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace();  // Handle the exception appropriately in your application
         }
 
-        return null;
+        return category;
     }
+
 
         // get category by id
 
     @Override
     public Category create(Category category) {
         // create a new category
-        String sql = "INSERT INTO Categories (CategoryName) VALUES (?)";
+        String sql = "INSERT INTO categories (name, description) VALUES (?, ?)";
+
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, category.getName());
+            statement.setString(2, category.getDescription());
 
-            statement.setString(1, category.getCategoryName());
 
             int affectedRows = statement.executeUpdate();
 
-            if (affectedRows == 0) {
-                throw new SQLException("Creating category failed, no rows affected.");
-            }
 
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    int generatedId = generatedKeys.getInt(1);
-                    category.setCategoryId(generatedId);
-                } else {
-                    throw new SQLException("Creating category failed, no ID obtained.");
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        category.setCategoryId(generatedKeys.getInt(1));
+                    }
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace();  // Handle the exception appropriately in your application
         }
 
-        return category;
-        return null;
     }
 
     @Override
     public void update(int categoryId, Category category) {
+        String sql = "UPDATE categories SET name = ?, description = ? WHERE category_id = ?";
+
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, category.getName());
+            statement.setString(2, category.getDescription());
+            statement.setInt(3, categoryId);
+
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();  // Handle the exception appropriately in your application
+        }
         // update category
     }
 
     @Override
     public void delete(int categoryId) {
         // delete category
+        String sql = "DELETE FROM categories WHERE category_id = ?";
+
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, categoryId);
+
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();  // Handle the exception appropriately in your application
+        }
+
     }
 
     private Category mapRow(ResultSet row) throws SQLException {
