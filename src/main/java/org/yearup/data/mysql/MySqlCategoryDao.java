@@ -89,6 +89,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         } catch (SQLException e) {
             e.printStackTrace();  // Handle the exception appropriately in your application
         }
+        return category;
 
     }
 

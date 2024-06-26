@@ -32,7 +32,7 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao
         minPrice = minPrice == null ? new BigDecimal("-1") : minPrice;
         maxPrice = maxPrice == null ? new BigDecimal("-1") : maxPrice;
         color = color == null ? "" : color;
-
+//max price
         try (Connection connection = getConnection())
         {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -40,6 +40,8 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao
             statement.setInt(2, categoryId);
             statement.setBigDecimal(3, minPrice);
             statement.setBigDecimal(4, minPrice);
+            statement.setBigDecimal(4, maxPrice);
+            statement.setBigDecimal(4, maxPrice);
             statement.setString(5, color);
             statement.setString(6, color);
 
