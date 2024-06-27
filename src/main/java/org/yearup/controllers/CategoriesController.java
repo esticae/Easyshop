@@ -65,9 +65,10 @@ public class CategoriesController {
     public void deleteCategory(@PathVariable int categoryId) {
         Category existingCategory = categoryDao.getById(categoryId);
         if (existingCategory == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found" + categoryId);
         }
 
         categoryDao.delete(categoryId);
     }
+
 }
