@@ -31,9 +31,13 @@ public class CategoriesController {
         return categoryDao.getAllCategories();
     }
 
-    @GetMapping("/{id}")
+    @RequestMapping(path = "/{id}" , method = RequestMethod.GET)
     public Category getById(@PathVariable int id) {
-        return categoryDao.getById(id);
+        Category category = categoryDao.getById(id);
+        if (category == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "nothing" + id);
+        }
+        return category;
     }
 
     @GetMapping("/{categoryId}/products")

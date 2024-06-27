@@ -86,7 +86,7 @@ public class ProductsController
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
             }
 
-            productDao.create(product);
+            productDao.update(id, product);
         }
       //bug in the update method
         catch(Exception ex)
