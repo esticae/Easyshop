@@ -7,8 +7,9 @@ Class Diagram
 User Stories
 List the user stories that guided the development of your application. Format these stories as: "As a [User], I want [some goal] so that [some reason]."
 
-As a shopper, I want to easily add products to my cart from different categories, so that I can efficiently shop for items across various sections.
+As a user, I want to easily add products to my cart from different categories, so that I can efficiently shop for items across various sections.
 As a user, I want to navigate through product categories effortlessly, so I can find products of interest quickly.
+AS a user I want to format the website to make it more appealing to the eye.
 Setup
 Instructions on how to set up and run the project using IntelliJ IDEA.
 
